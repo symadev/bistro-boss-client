@@ -1,13 +1,16 @@
 import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import logo from "../../../assets/icon/van.png"
 
 const Navbar = () => {
   const links = (
     <>
-      <li><a className="text-yellow-400 font-bold">HOME</a></li>
-      <li><a>CONTACT US</a></li>
-      <li><a>DASHBOARD</a></li>
-      <li><a>OUR MENU</a></li>
-      <li><a>OUR SHOP</a></li>
+      <li><Link to ="/"><a className="text-yellow-400 font-bold">HOME</a></Link></li>
+      <li><Link to ="/contact">CONTACT US</Link></li> 
+      <li><Link to ="/dashboard">DASHBOARD</Link></li>
+      <li><Link to ="/menu">OUR MENU</Link></li> 
+      <li><Link to ="/shop">OUR SHOP</Link></li>
+      <img className="w-10 h-10" src={logo} alt="logo" />
     </>
   );
 
@@ -30,14 +33,13 @@ const Navbar = () => {
       </div>
 
       {/* Right: Cart and User */}
-      <div className="navbar-end gap-4">
-        <div className="relative">
-          <FaShoppingCart className="text-xl" />
-          <span className="badge badge-sm badge-secondary absolute -top-2 -right-2">3</span>
-        </div>
-        <a className="text-sm font-semibold">SIGN OUT</a>
-        <FaUserCircle className="text-2xl" />
-      </div>
+      <div className="navbar-end">
+  <button className="btn btn-outline text-white hover:bg-black flex items-center gap-2">
+    <FaUserCircle className="text-2xl" />
+    <span className="text-sm font-semibold">SIGN OUT</span>
+  </button>
+</div>
+
     </div>
   );
 };
