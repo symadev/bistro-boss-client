@@ -19,30 +19,65 @@ const Category = () => {
             ></Titles>
 
 
-            <Swiper
-            slidesPerView={4}
-            spaceBetween={30}
-            centeredSlides={true}
-            pagination={{
-                clickable: true,
-            }}
-            modules={[Pagination]}
-            className="mySwiper mb-24"
-        >
-        <SwiperSlide><img src={slide1} alt="" />
-        <h2 className='text-4xl uppercase text-center -mt-16 text-white drop-shadow-md'>salads</h2></SwiperSlide>
-            <SwiperSlide><img src={slide2} alt="" />
-            <h2 className='text-4xl uppercase text-center -mt-16 text-white drop-shadow-sm'>Soups</h2>
-           </SwiperSlide>
-            <SwiperSlide><img src={slide3} alt="" />
-            <h2 className='text-4xl uppercase text-center -mt-16 text-white drop-shadow-sm'>pizzas</h2>
-            </SwiperSlide>
-            <SwiperSlide><img src={slide4} alt="" />
-            <h2 className='text-4xl uppercase text-center -mt-16 text-white drop-shadow-sm'>desserts</h2></SwiperSlide>
-            <SwiperSlide><img src={slide5} alt="" />
-            <h2 className='text-4xl uppercase text-center -mt-16 text-white drop-shadow-sm'>salads</h2></SwiperSlide>
-           
-        </Swiper>
+<Swiper
+    spaceBetween={30}
+    centeredSlides={true}
+    pagination={{ clickable: true }}
+    modules={[Pagination]}
+    className="mySwiper mb-24"
+    breakpoints={{
+        320: { slidesPerView: 1 },
+        640: { slidesPerView: 2 },
+        768: { slidesPerView: 3 },
+        1024: { slidesPerView: 4 },
+    }}
+>
+    <SwiperSlide>
+        <div className="relative">
+            <img src={slide1} alt="Salads" className="w-full h-64 object-cover rounded-lg" />
+            <h2 className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-xl md:text-3xl lg:text-4xl text-white uppercase drop-shadow-md text-center">
+                Salads
+            </h2>
+        </div>
+    </SwiperSlide>
+
+    <SwiperSlide>
+        <div className="relative">
+            <img src={slide2} alt="Soups" className="w-full h-64 object-cover rounded-lg" />
+            <h2 className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-xl md:text-3xl lg:text-4xl text-white uppercase drop-shadow-md text-center">
+            Pizzas
+            </h2>
+        </div>
+    </SwiperSlide>
+
+    <SwiperSlide>
+        <div className="relative">
+            <img src={slide3} alt="Pizzas" className="w-full h-64 object-cover rounded-lg" />
+            <h2 className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-xl md:text-3xl lg:text-4xl text-white uppercase drop-shadow-md text-center">
+            Soups
+            </h2>
+        </div>
+    </SwiperSlide>
+
+    <SwiperSlide>
+        <div className="relative">
+            <img src={slide4} alt="Desserts" className="w-full h-64 object-cover rounded-lg" />
+            <h2 className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-xl md:text-3xl lg:text-4xl text-white uppercase drop-shadow-md text-center">
+                Desserts
+            </h2>
+        </div>
+    </SwiperSlide>
+
+    <SwiperSlide>
+        <div className="relative">
+            <img src={slide5} alt="Salads" className="w-full h-64 object-cover rounded-lg" />
+            <h2 className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-xl md:text-3xl lg:text-4xl text-white uppercase drop-shadow-md text-center">
+                Salads
+            </h2>
+        </div>
+    </SwiperSlide>
+</Swiper>
+
    
         </section>
          );
