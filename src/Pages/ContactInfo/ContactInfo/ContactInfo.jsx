@@ -1,8 +1,10 @@
 import { Parallax } from 'react-parallax';
 import ContactImg from '../../../assets/contact/banner.jpg'
 
+
 const ContactInfo = () => {
     return (
+       
         <Parallax
                     blur={{ min: -50, max: 50 }}
                     bgImage={ContactImg}
@@ -18,6 +20,11 @@ const ContactInfo = () => {
                     </div>
                 
                   </Parallax>
+              
+
+            
+
+                 
     );
 };
 

@@ -10,6 +10,8 @@ const Navbar = () => {
       <li><Link to ="/menu">OUR MENU</Link></li> 
       <li><Link to ="/shop/salad">OUR SHOP</Link></li>
       <img className="w-10 h-10" src={logo} alt="logo" />
+      <li><Link to ="/login">LOGIN</Link></li>
+    
     </>
   );
 
