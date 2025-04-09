@@ -1,8 +1,18 @@
 import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/icon/van.png"
+import { useContext } from 'react';
+import { AuthContext } from "../../../Provider/AuthContext";
 
 const Navbar = () => {
+
+  const {user, logout} = useContext(AuthContext);
+  const handleLogout = () =>{
+    logout()
+    .then(() => {})
+    .catch((error) =>console.log(error));
+     
+  }
   const links = (
     <>
       <li><Link to ="/"><a className="text-yellow-400 font-bold">HOME</a></Link></li>
@@ -10,7 +20,14 @@ const Navbar = () => {
       <li><Link to ="/menu">OUR MENU</Link></li> 
       <li><Link to ="/shop/salad">OUR SHOP</Link></li>
       <img className="w-10 h-10" src={logo} alt="logo" />
-      <li><Link to ="/login">LOGIN</Link></li>
+      
+
+      {
+        user? <><button  onClick = {handleLogout}className="btn  btn-ghost">LOG OUT</button></>:
+        <> <li><Link to ="/login">LOGIN</Link></li></>
+
+      }
+     
     
     </>
   );
