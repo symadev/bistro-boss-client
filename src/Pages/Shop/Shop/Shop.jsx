@@ -4,17 +4,29 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import { useState } from 'react';
 import Hooks from '../../../Hooks/Hooks';
+
+import ShopTab from '../ShopTab/ShopTab';
+import { useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 const Shop = () => {
-    const [tabIndex, setTabIndex] = useState(0)
+    const categories = ['salad','pizza','soup','desserts','drinks'];
+    const {category} = useParams();
+    const initialIndex = categories.indexOf(category)
+    const [tabIndex, setTabIndex] = useState(initialIndex);
 
     const [menu] = Hooks()
     const desserts = menu.filter(item =>item.category ==='dessert');
     const pizza = menu.filter(item =>item.category ==='pizza');
     const soup = menu.filter(item =>item.category ==='soup');
     const salad = menu.filter(item =>item.category ==='salad'); 
-    const offered= menu.filter(item =>item.category ==='offered'); 
+    const drinks= menu.filter(item =>item.category ==='drinks'); 
     return (
         <section>
+            <Helmet>
+                    <title>Bistro | Our Shop</title>
+                   
+                   
+                  </Helmet>
         <Parallax
             blur={{ min: -50, max: 50 }}
             bgImage={coverImg}
@@ -33,20 +45,29 @@ const Shop = () => {
         </Parallax>
        
         <Tabs defaultIndex={tabIndex} onSelect={(index) =>setTabIndex(index)}>
-  <TabList>
+        <div className="flex items-center justify-center p-10 ">
+  <TabList className="flex gap-4">
     <Tab>Salad</Tab>
-    <Tab>pizza</Tab>
-    <Tab>soups</Tab>
-    <Tab>desserts</Tab>
-    <Tab>drinks</Tab>
-    
-   
+    <Tab>Pizza</Tab>
+    <Tab>Soups</Tab>
+    <Tab>Desserts</Tab>
+    <Tab>Drinks</Tab>
   </TabList>
-  <TabPanel></TabPanel>
-  <TabPanel></TabPanel>
-  <TabPanel></TabPanel>
-  <TabPanel></TabPanel>
-  <TabPanel></TabPanel>
+</div>
+  <TabPanel>
+   <ShopTab items={salad}></ShopTab>
+  </TabPanel>
+  <TabPanel>
+  <ShopTab items={pizza}></ShopTab>
+  </TabPanel>
+  <TabPanel> <ShopTab items={soup}></ShopTab>
+  </TabPanel>
+  <TabPanel>
+  <ShopTab items={desserts}></ShopTab>
+  </TabPanel>
+  <TabPanel>
+  <ShopTab items={drinks}></ShopTab>
+  </TabPanel>
 </Tabs>
 
         </section>

@@ -23,7 +23,7 @@ import ContactInfo from "../Pages/ContactInfo/ContactInfo/ContactInfo";
           element:<Menu></Menu>,
         },
         {
-          path: "shop",
+          path: "shop/:category",
           element:<Shop></Shop>,
         },
         {
