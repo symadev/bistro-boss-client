@@ -1,5 +1,5 @@
 import { FaFacebookF, FaGoogle, FaGithub } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { Helmet } from 'react-helmet-async';
 import { useContext } from 'react';
@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 const SignUp = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { createUser } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const onSubmit = data => {
         console.log(data);
@@ -30,6 +31,7 @@ const SignUp = () => {
                       no-repeat
                     `
                   });
+                  navigate('/');
 
             })
 
