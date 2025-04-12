@@ -1,8 +1,9 @@
 import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import logo from "../../../assets/icon/van.png"
+
 import { useContext } from 'react';
 import { AuthContext } from "../../../Provider/AuthContext";
+import { BsCart4 } from "react-icons/bs";
 
 const Navbar = () => {
 
@@ -18,9 +19,18 @@ const Navbar = () => {
       <li><Link to ="/"><a className="text-yellow-400 font-bold">HOME</a></Link></li>
       <li><Link to ="/contact">CONTACT US</Link></li> 
       <li><Link to ="/menu">OUR MENU</Link></li> 
-      
-      <img className="w-10 h-10" src={logo} alt="logo" />
-      <li><Link to ="/dashboard">DASHBOARD</Link></li> 
+      <li><Link to ="/shop/salad">OUR SHOP</Link></li>
+     
+      <li><Link to ="/dashboard">DASHBOARD</Link></li>   
+      <li>
+  <Link to="/">
+    <button className="btn border-none  -mt-2 shadow-none bg-transparent hover:bg-transparent">
+      <BsCart4 />
+      <div className="badge badge-secondary">+0</div>
+    </button>
+  </Link>
+</li>
+    
       
 
       {
@@ -28,7 +38,6 @@ const Navbar = () => {
         <> <li><Link to ="/login">LOGIN</Link></li></>
 
       }
-    
      
     
     </>
