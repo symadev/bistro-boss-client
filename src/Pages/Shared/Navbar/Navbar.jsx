@@ -4,10 +4,15 @@ import { Link } from "react-router-dom";
 import { useContext } from 'react';
 import { AuthContext } from "../../../Provider/AuthContext";
 import { BsCart4 } from "react-icons/bs";
+import UseCart from "../../../Components/UseAuth/UseCart";
 
 const Navbar = () => {
 
   const {user, logout} = useContext(AuthContext);
+  //array hishabe return korle aikahne distructure o hobe array hishabe
+  const [cart ]= UseCart()
+
+
   const handleLogout = () =>{
     logout()
     .then(() => {})
@@ -26,7 +31,7 @@ const Navbar = () => {
   <Link to="/">
     <button className="btn border-none  -mt-2 shadow-none bg-transparent hover:bg-transparent">
       <BsCart4 />
-      <div className="badge badge-secondary">+0</div>
+      <div className="badge badge-secondary">+{cart.length}</div>
     </button>
   </Link>
 </li>
