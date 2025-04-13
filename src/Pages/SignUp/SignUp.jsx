@@ -102,7 +102,7 @@ const SignUp = () => {
 
                             <div className="form-control mt-6">
                                 <input
-                                    className="w-full btn btn-primary bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-semibold py-2 rounded-lg shadow-md transition-all"
+                                    className="w-full btn btn-primary border-0 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-semibold py-2 rounded-lg shadow-md transition-all"
                                     type="submit"
                                     value="Register"
                                 />

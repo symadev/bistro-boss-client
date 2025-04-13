@@ -9,6 +9,8 @@ import {
 import { router } from './Routes/Routes';
 import { HelmetProvider } from 'react-helmet-async';
 import AuthProvider from './Provider/AuthContext';
+// ✅ Force DaisyUI into light mode
+document.documentElement.setAttribute('data-theme', 'light');
 
 
 
