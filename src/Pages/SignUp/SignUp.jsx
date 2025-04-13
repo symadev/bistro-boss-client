@@ -30,8 +30,8 @@ const SignUp = () => {
                       left top
                       no-repeat
                     `
-                  });
-                  navigate('/');
+                });
+                navigate('/');
 
             })
 
