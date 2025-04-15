@@ -28,10 +28,10 @@ const Navbar = () => {
      
       <li><Link to ="/dashboard">DASHBOARD</Link></li>   
       <li>
-  <Link to="/">
+  <Link to="/dashboard/cart">
     <button className="btn border-none  -mt-2 shadow-none bg-transparent hover:bg-transparent">
       <BsCart4 />
-      <div className="badge badge-secondary">+{cart.length}</div>
+      <div className="badge badge-secondary">+{cart.length}</div> 
     </button>
   </Link>
 </li>
