@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { AuthContext } from '../../Provider/AuthContext';
 import Swal from 'sweetalert2';
+import SocialLogin from '../../Components/SocialLogin/SocialLogin';
 
 
 
@@ -165,6 +166,7 @@ const Login = () => {
                               Create a New Account</Link>
                             </a>
                         </p>
+                        <SocialLogin></SocialLogin>
                     
                 </div>
             </div>
