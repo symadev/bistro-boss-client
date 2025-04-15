@@ -5,9 +5,12 @@ import { Helmet } from 'react-helmet-async';
 import { useContext } from 'react';
 import { AuthContext } from '../../Provider/AuthContext';
 import Swal from 'sweetalert2';
+import UseAxiosPublic from '../../Components/UseAuth/UseAxiosPublic';
+
 
 const SignUp = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const axiosPublic = UseAxiosPublic();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const { createUser } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -18,20 +21,36 @@ const SignUp = () => {
             .then((result) => {
                 const loggedUser = result.user;
                 console.log(loggedUser);
-                Swal.fire({
-                    title: "Register Done",
-                    width: 600,
-                    padding: "3em",
-                    color: "#716add",
-                    background: "#fff url(/images/trees.png)",
-                    backdrop: `
-                      rgba(0,0,123,0.4)
-                      url("/images/nyan-cat.gif")
-                      left top
-                      no-repeat
-                    `
-                });
-                navigate('/');
+
+
+                //create user entry in the database-->for save the user info to the database
+                const userInfo = {
+                    email: data.email,
+                    password: data.password
+                }
+
+                axiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        if (res.data.insertedId) {
+                            console.log('user added to the database')
+                            reset();
+                            Swal.fire({
+                                title: "Register Done",
+                                width: 600,
+                                padding: "3em",
+                                color: "#716add",
+                                background: "#fff url(/images/trees.png)",
+                                backdrop: `
+                              rgba(0,0,123,0.4)
+                              url("/images/nyan-cat.gif")
+                              left top
+                              no-repeat
+                            `
+                            });
+                            navigate('/');
+                        }
+                    })
+
 
             })
 
@@ -49,7 +68,7 @@ const SignUp = () => {
             <div className="hero bg-base-200 min-h-screen">
                 <div className="hero-content flex-col lg:flex-row-reverse">
                     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-                        <form form onSubmit={handleSubmit(onSubmit)} className="card-body">
+                        <form onSubmit={handleSubmit(onSubmit)} className="card-body">
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Name</span>
