@@ -10,6 +10,7 @@ import {
 
 } from "firebase/auth";
 import { app } from "../Firebase/Firebase";
+import UseAxiosPublic from "../Components/UseAuth/UseAxiosPublic";
 
 
 // Create Context
@@ -21,6 +22,7 @@ const AuthProvider = ({ children }) => {
   const googleProvider = new GoogleAuthProvider();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const axiosPublic = UseAxiosPublic()
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -41,7 +43,7 @@ const AuthProvider = ({ children }) => {
 
   };
 
-  const logout = () => {
+  const logOut = () => {
     setLoading(true);
     return signOut(auth);
   };
@@ -55,15 +57,31 @@ const AuthProvider = ({ children }) => {
       //for jwt 
       if (currentUser) {
         //get token and store client
+        const userINfo = {email:currentUser.email}
+        axiosPublic.post('/jwt',userINfo)
+        .then (res=>{
+          if(res.data.token){
+            localStorage.setItem('access-token', res.data.token)
+            //needed two arguments
+          }
+          else {
+            //do something:remove token (if the token store in the client sight(like,localstorage,chasing,memory))
+            localStorage.removeItem('access-token')
+          }
+        })
       }
-      else {
-        //do something:remove token (if the token store in the client sight(like,localstorage,chasing,memory))
-      }
+      
       setLoading(false);
     });
 
+
+
+    // যখন একজন ইউজার লগইন করে (বা Firebase এর মাধ্যমে currentUser পাওয়া যায়), 
+    // তখন আমরা সেই ইউজারের জন্য একটা JWT Token সার্ভার থেকে নিয়ে নিচ্ছি এবং
+    //  localStorage-এ রেখে দিচ্ছি। এই টোকেনটা আমরা পরবর্তীতে ব্যবহার করবো সিকিউর API গুলাতে access পাওয়ার জন্য।
+
     return () => unsubscribe();
-  }, []);
+  }, [axiosPublic]);
 
   const authInfo = {
     user,
@@ -71,7 +89,7 @@ const AuthProvider = ({ children }) => {
     createUser,
     signIn,
     googleSignIn,
-    logout,
+    logOut,
     loading,
   };
 

@@ -1,10 +1,11 @@
 import { FaBars, FaBook, FaClipboardList, FaHome, FaPhone, FaShoppingCart, FaStarHalfAlt, FaUtensilSpoon, FaWallet } from "react-icons/fa";
 import { FaCalendar, FaPersonFalling, FaShop } from "react-icons/fa6";
 import { NavLink, Outlet } from "react-router-dom";
+import UseAdmin from "../Components/UseAuth/UseAdmin";
 
 
 const Dashboard = () => {
-    const isAdmin = true;
+    const [isAdmin] = UseAdmin();
 
     return (
         <div className="flex">
