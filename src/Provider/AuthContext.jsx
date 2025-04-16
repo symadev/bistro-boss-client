@@ -7,7 +7,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
- 
+
 } from "firebase/auth";
 import { app } from "../Firebase/Firebase";
 
@@ -31,14 +31,14 @@ const AuthProvider = ({ children }) => {
   const signIn = (email, password) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
-   
+
   };
 
   //for googleSignin
   const googleSignIn = () => {
     setLoading(true);
-    return signInWithPopup(auth,googleProvider);
-   
+    return signInWithPopup(auth, googleProvider);
+
   };
 
   const logout = () => {
@@ -47,11 +47,18 @@ const AuthProvider = ({ children }) => {
   };
 
 
-  
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser || null);
+      //for jwt 
+      if (currentUser) {
+        //get token and store client
+      }
+      else {
+        //do something:remove token (if the token store in the client sight(like,localstorage,chasing,memory))
+      }
       setLoading(false);
     });
 

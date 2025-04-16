@@ -15,6 +15,7 @@ const SocialLogin = () => {
         console.log(result.user);
         //akhon jehetu user ta dhuke jabe tai amara aikahne axios use kore user ar data ta pathay debo
         const userInfo={
+           
             email:result.user?.email,
            
         }

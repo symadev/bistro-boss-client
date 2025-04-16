@@ -25,6 +25,7 @@ const SignUp = () => {
 
                 //create user entry in the database-->for save the user info to the database
                 const userInfo = {
+                    name: data.name,
                     email: data.email,
                     password: data.password
                 }
