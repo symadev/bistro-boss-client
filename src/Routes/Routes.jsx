@@ -15,6 +15,7 @@ import DashBoard from "../Pages/Shared/DashBoard/DashBoard";
 import Dashboard from "../Layout/DashBoard";
 import Cart from "../Pages/Dashboard/Cart/Cart";
 import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
+import AddItems from "../Pages/Dashboard/AddItems/AddItems";
 
 
    export const router = createBrowserRouter([
@@ -67,6 +68,11 @@ import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
 
       path: "Users",
       element:<AllUsers></AllUsers>,
+    },
+    {
+
+      path: "AddItems",
+      element:<AddItems></AddItems>,
     },
 
 

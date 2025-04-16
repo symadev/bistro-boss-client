@@ -19,3 +19,7 @@ const PrivateRoutes = ({children}) => {
 };
 
 export default PrivateRoutes;
+
+
+// এই PrivateRoutes কম্পোনেন্টটা আমরা ব্যবহার করি এমন রুট (route) গুলোকে সিকিউর বা 
+// প্রাইভেট করার জন্য, যেখানে শুধুমাত্র লগইন করা ইউজাররাই অ্যাক্সেস করতে পারবে।
