@@ -3,8 +3,8 @@ import UseAdmin from "./UseAdmin";
 import UseAuth from "./UseAuth";
 
 
-const AdminRoutes = (children) => {
-    const [user, isLoading] = UseAuth()
+const AdminRoutes = ({ children }) => {
+    const { user, loading: isLoading } = UseAuth();
     const [isAdmin,isAdminLoading] = UseAdmin()
     const location = useLocation()
     

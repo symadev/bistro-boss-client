@@ -1,6 +1,8 @@
 import Titles from '../../../Components/Titles/Titles';
 import { useForm } from 'react-hook-form';
 import UseAxiosPublic from '../../../Components/UseAuth/UseAxiosPublic';
+import UseAxiosSecure from '../../../Components/UseAuth/UseAxiosSecure';
+import Swal from 'sweetalert2';
 
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
@@ -12,6 +14,7 @@ const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_ke
 
 const AddItems = () => {
     const axiosPublic = UseAxiosPublic()
+    const axiosSecure = UseAxiosSecure()
 
     const { register, handleSubmit, reset } = useForm();
 
@@ -27,11 +30,36 @@ const AddItems = () => {
         })
         //by-default jdi amra image data send korte chai tahole amaderk akta special header dite hobe must
         // or body ar moddhe from data hishabe dite hobe and aitake stringify kora jabe na 
+if(res.data.success){
+    //now send the menu item data to the server with the image url
+    const menuItem = {
+        name: data.name,
+        category:data.category,
+        price:parseFloat(data.price),
+        recipe:data.recipe,
+        image:res.data.data.display_url
+    }
+        //now we send the inserted data to the menu cart 
+        const menuRes = await axiosSecure.post ('/menu', menuItem);
+         console.log(menuRes.data)
+         if(menuRes.data.insertedId){
+            //show process popup
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: `${data.name} added the item to the menu cart`,
+                showConfirmButton: false,
+                timer: 1500
+              });
 
+            
+         }
+   
+}
 
 
 console.log(res.data);
-        reset(); // Reset form after submission
+        reset(); // Reset form after submission --> from clear the from
     };
 
     return (
