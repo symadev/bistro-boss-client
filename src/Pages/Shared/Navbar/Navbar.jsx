@@ -8,13 +8,13 @@ import UseCart from "../../../Components/UseAuth/UseCart";
 
 const Navbar = () => {
 
-  const {user, logout} = useContext(AuthContext);
+  const {user, logOut} = useContext(AuthContext);
   //array hishabe return korle aikahne distructure o hobe array hishabe
   const [cart ]= UseCart()
 
 
   const handleLogout = () =>{
-    logout()
+    logOut()
     .then(() => {})
     .catch((error) =>console.log(error));
      

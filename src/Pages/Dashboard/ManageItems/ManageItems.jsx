@@ -4,10 +4,11 @@ import Titles from "../../../Components/Titles/Titles";
 import Hooks from "../../../Hooks/Hooks";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import UseAxiosSecure from "../../../Components/UseAuth/UseAxiosSecure";
+import { Link } from "react-router-dom";
 
 
 const ManageItems = () => {
-    const [menu,  loading ,refetch] = Hooks()
+    const [menu, loading, refetch] = Hooks()
     const axiosSecure = UseAxiosSecure()
 
     const handleDelete = item => {
@@ -35,11 +36,11 @@ const ManageItems = () => {
                         title: "Your item  has been deleted",
                         showConfirmButton: false,
                         timer: 1500
-                      });
+                    });
 
                 }
 
-                
+
             }
         });
     }
@@ -85,8 +86,14 @@ const ManageItems = () => {
                                 {item.name}
                             </td>
                             <td>  ${item.price}</td>
-                            <td> <button className="btn btn-primary btn-md">
-                                <FaEdit className="text-red-500"></FaEdit></button></td>
+                            <td>
+                                <Link to={`/dashboard/updateItem/${item._id}`}>
+                                    <button className="btn btn-primary btn-md">
+                                        <FaEdit className="text-red-500" />
+                                    </button>
+                                </Link>
+                            </td>
+
                             <td>
                                 <button onClick={() => handleDelete(item)} className="btn btn-ghost btn-lg"><FaTrashAlt className="text-red-500"></FaTrashAlt></button>
                             </td>

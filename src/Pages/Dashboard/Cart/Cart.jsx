@@ -2,6 +2,7 @@ import Swal from "sweetalert2";
 import UseCart from "../../../Components/UseAuth/UseCart";
 import { FaTrashAlt } from "react-icons/fa";
 import UseAxiosSecure from "../../../Components/UseAuth/UseAxiosSecure";
+import { Link } from "react-router-dom";
 
 
 const Cart = () => {
@@ -66,7 +67,10 @@ cart:{cart.length}
             <h3 className="text-6xl">
 total Price:{totalPrice}
             </h3>
-            <button className="btn-primary btn">pay</button>
+            {
+            cart.length? <Link to = '/dashboard/payment'> <button className="btn-primary btn">pay</button></Link> : <button  disabled className="btn-primary btn">pay</button>
+            }
+           
            </div>
 
            <div className="overflow-x-auto ">
