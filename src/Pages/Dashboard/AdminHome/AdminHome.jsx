@@ -4,7 +4,7 @@ import UseAxiosSecure from "../../../Components/UseAuth/UseAxiosSecure";
 import { FaDollarSign, FaUserAlt, FaUtensils } from "react-icons/fa";
 import { FaBook } from "react-icons/fa6";
 
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, PieChart, Pie,Legend } from 'recharts';
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, PieChart, Pie,Legend , ResponsiveContainer} from 'recharts';
 
 const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink'];
 
@@ -30,7 +30,7 @@ const AdminHome = () => {
 
     //individually data load 
 
-    const { data: chartData = {} } = useQuery({
+    const { data: chartData = [] } = useQuery({
         queryKey: ['order-stats',],
         queryFn: async () => {
             const res = await axiosSecure.get(`/order-stats`);
@@ -78,91 +78,90 @@ const AdminHome = () => {
 
 
     return (
-        <div>
-            <h1 className="text-4xl font-bold"> Hi! Welcome to Admin Home</h1>
-            {/* <div>
-                {
-                    user?.displayName ? user.displayName : 'back'
-                }
-            </div> */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-                <div className="p-6 rounded-xl text-white bg-gradient-to-r from-purple-500 to-pink-500 shadow-md">
-                    <div className="text-3xl mb-2">
-                        <FaDollarSign />
-                    </div>
-                    <div className="text-lg">Revenue</div>
-                    <div className="text-2xl font-bold">{stats.revenue}</div>
-                </div>
-
-                <div className="p-6 rounded-xl text-white bg-gradient-to-r from-yellow-400 to-yellow-200 shadow-md">
-                    <div className="text-3xl mb-2">
-                        <FaUserAlt />
-                    </div>
-                    <div className="text-lg">Users</div>
-                    <div className="text-2xl font-bold">{stats.users}</div>
-                </div>
-
-                <div className="p-6 rounded-xl text-white bg-gradient-to-r from-pink-400 to-pink-200 shadow-md">
-                    <div className="text-3xl mb-2">
-                        <FaUtensils />
-                    </div>
-                    <div className="text-lg">Menu Item</div>
-                    <div className="text-2xl font-bold">{stats.menuItems}</div>
-                </div>
-
-                <div className="p-6 rounded-xl text-white bg-gradient-to-r from-blue-400 to-blue-200 shadow-md">
-                    <div className="text-3xl mb-2">
-                        <FaBook />
-                    </div>
-                    <div className="text-lg">Orders</div>
-                    <div className="text-2xl font-bold">{stats.orders}</div>
-                </div>
-            </div>
-            <div className="flex">
-                <div className="w-1/2">
-                    <BarChart
-                        width={500}
-                        height={300}
-                        data={chartData}
-                        margin={{
-                            top: 20,
-                            right: 30,
-                            left: 20,
-                            bottom: 5,
-                        }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="category" />
-                        <YAxis />
-                        <Bar dataKey="quantity" fill="#8884d8" shape={<TriangleBar />} label={{ position: 'top' }}>
-                            {chartData.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={colors[index % 6]} />
-                            ))}
-                        </Bar>
-                    </BarChart>
-                </div>
-                <div className="w-1/2"></div>
-                <PieChart width={300} height={300}>
-                 
-                    <Pie
-                        data={pieChart}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        label={renderCustomizedLabel}
-                        outerRadius={80}
-                        fill="#8884d8"
-                        dataKey="value"
-                    >
-                        {pieChart.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                    </Pie>
-                    <Legend></Legend>
-                </PieChart>
-            </div>
-
+        <div className="p-6">
+        <h1 className="text-4xl font-bold mb-8 text-center">Hi! Welcome to Admin Home</h1>
+      
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+          <div className="p-6 rounded-xl text-white bg-gradient-to-r from-purple-500 to-pink-500 shadow-md">
+            <div className="text-3xl mb-2"><FaDollarSign /></div>
+            <div className="text-lg">Revenue</div>
+            <div className="text-2xl font-bold">{stats.revenue}</div>
+          </div>
+      
+          <div className="p-6 rounded-xl text-white bg-gradient-to-r from-yellow-400 to-yellow-200 shadow-md">
+            <div className="text-3xl mb-2"><FaUserAlt /></div>
+            <div className="text-lg">Users</div>
+            <div className="text-2xl font-bold">{stats.users}</div>
+          </div>
+      
+          <div className="p-6 rounded-xl text-white bg-gradient-to-r from-pink-400 to-pink-200 shadow-md">
+            <div className="text-3xl mb-2"><FaUtensils /></div>
+            <div className="text-lg">Menu Items</div>
+            <div className="text-2xl font-bold">{stats.menuItems}</div>
+          </div>
+      
+          <div className="p-6 rounded-xl text-white bg-gradient-to-r from-blue-400 to-blue-200 shadow-md">
+            <div className="text-3xl mb-2"><FaBook /></div>
+            <div className="text-lg">Orders</div>
+            <div className="text-2xl font-bold">{stats.orders}</div>
+          </div>
         </div>
+      
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+  {/* Bar Chart */}
+  <div className="bg-white shadow-lg rounded-xl p-4">
+    <h2 className="text-xl font-semibold mb-4 text-center">Menu Item Orders</h2>
+    <ResponsiveContainer width="100%" height={300}>
+      <BarChart
+        data={chartData}
+        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="category" />
+        <YAxis />
+        <Bar
+          dataKey="quantity"
+          fill="#8884d8"
+          shape={<TriangleBar />}
+          label={{ position: 'top' }}
+        >
+          {chartData.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={colors[index % 6]} />
+          ))}
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
+  </div>
+
+  {/* Pie Chart */}
+  <div className="bg-white shadow-lg rounded-xl p-4 flex flex-col items-center">
+    <h2 className="text-xl font-semibold mb-4 text-center">Order Distribution</h2>
+    <ResponsiveContainer width="100%" height={300}>
+      <PieChart>
+        <Pie
+          data={pieChart}
+          cx="50%"
+          cy="50%"
+          labelLine={false}
+          label={renderCustomizedLabel}
+          outerRadius={80}
+          fill="#8884d8"
+          dataKey="value"
+        >
+          {pieChart.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+        <Legend />
+      </PieChart>
+    </ResponsiveContainer>
+  </div>
+</div>
+
+      </div>
+      
     );
 };
 

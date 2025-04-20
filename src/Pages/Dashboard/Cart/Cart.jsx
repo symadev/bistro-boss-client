@@ -13,7 +13,7 @@ const Cart = () => {
 
 
 
-const totalPrice = cart.reduce((total,item )=>total+item.price,0);
+const totalPrice = cart.reduce((total, item) => total + item.price, 0).toFixed(2);
      // এটা cart নামের অ্যারেটির মধ্যে থাকা সব item-এর price গুলো যোগ করে মোট দাম (totalPrice) হিসেব করে।
 
 
