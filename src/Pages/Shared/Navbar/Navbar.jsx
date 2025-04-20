@@ -5,10 +5,12 @@ import { useContext } from 'react';
 import { AuthContext } from "../../../Provider/AuthContext";
 import { BsCart4 } from "react-icons/bs";
 import UseCart from "../../../Components/UseAuth/UseCart";
+import UseAdmin from "../../../Components/UseAuth/UseAdmin";
 
 const Navbar = () => {
 
   const {user, logOut} = useContext(AuthContext);
+  const [isAdmin] = UseAdmin()
   //array hishabe return korle aikahne distructure o hobe array hishabe
   const [cart ]= UseCart()
 
@@ -25,8 +27,13 @@ const Navbar = () => {
       <li><Link to ="/contact">CONTACT US</Link></li> 
       <li><Link to ="/menu">OUR MENU</Link></li> 
       <li><Link to ="/shop/salad">OUR SHOP</Link></li>
-     
-      <li><Link to ="/dashboard">DASHBOARD</Link></li>   
+     {
+      user && isAdmin && <li><Link to ="/dashboard/adminHome">DASHBOARD</Link></li>   
+     }
+     {
+      user && !isAdmin && <li><Link to ="/dashboard/userHome">DASHBOARD</Link></li>   
+     }
+      
       <li>
   <Link to="/dashboard/cart">
     <button className="btn border-none  -mt-2 shadow-none bg-transparent hover:bg-transparent">

@@ -1,0 +1,75 @@
+// called menuItemId, which contains id of the menu items that a user purchased.
+// i  have also another collection called menu. 
+// inthe menu collecction i have field like category and also the total revenue to each category.
+//  i am  using express and mongodb not the mongoos
+
+
+// ChatGPT said:
+// Perfect! Thanks for the details. You're trying to calculate:
+
+// How many items were sold per category, and
+
+// Total revenue per category
+
+// from two MongoDB collections: payments and menu.
+
+// Let’s do this using MongoDB Aggregation Pipeline in your Express backend — without Mongoose.
+
+// 🔄 Relationships
+// payments → contains menuItemsId (array of _ids from menu)
+
+// menu → contains category and price
+
+// ✅ Aggregation Goal
+// We'll:
+
+// Lookup menu item details from menu using menuItemsId
+
+// Unwind the array to flatten it
+
+// Group by category to count and sum revenue
+
+// ✅ Express Route Example
+// js
+// Copy
+// Edit
+// app.get('/admin-stats-by-category', async (req, res) => {
+//   try {
+//     const result = await paymentCollection.aggregate([
+//       {
+//         $unwind: '$menuItemsId' // flatten the menuItemsId array
+//       },
+//       {
+//         $lookup: {
+//           from: 'menu', // collection name in MongoDB
+//           localField: 'menuItemsId',
+//           foreignField: '_id',
+//           as: 'menuItem'
+//         }
+//       },
+//       {
+//         $unwind: '$menuItem'
+//       },
+//       {
+//         $group: {
+//           _id: '$menuItem.category',
+//           totalSold: { $sum: 1 },
+//           totalRevenue: { $sum: '$menuItem.price' }
+//         }
+//       },
+//       {
+//         $project: {
+//           _id: 0,
+//           category: '$_id',
+//           totalSold: 1,
+//           totalRevenue: 1
+//         }
+//       }
+//     ]).toArray();
+
+//     res.send(result);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send('Server Error');
+//   }
+// });

@@ -1,151 +1,105 @@
-; 🔁 Import গুলো
-; js
-; Copy
-; Edit
-; import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-; import { useEffect, useState } from "react";
-; import UseAxiosSecure from "../../../../Components/UseAuth/UseAxiosSecure";
-; import UseCart from "../../../../Components/UseAuth/UseCart";
-; import UseAuth from "../../../../Components/UseAuth/UseAuth";
-; এখানে বিভিন্ন হুক ও কম্পোনেন্ট ইম্পোর্ট করা হয়েছে:
+; 🔄 সারাংশ:
+; এই কম্পোনেন্টটি Stripe-এর মাধ্যমে পেমেন্ট করার জন্য একটি ফর্ম তৈরি করে। ইউজার যখন ফর্মটি সাবমিট করে, তখন এটি Stripe API ব্যবহার করে পেমেন্ট প্রসেস করে এবং সফল হলে সার্ভারে সেই পেমেন্টের ডেটা সংরক্ষণ করে।
 
-; Stripe পেমেন্টের জন্য useStripe, useElements, CardElement
+; 🔧 যেসব লাইব্রেরি ব্যবহার হয়েছে:
+; @stripe/react-stripe-js → Stripe-এর পেমেন্ট গেটওয়ে হ্যান্ডল করতে
 
-; useState, useEffect React এর হুক
+; axiosSecure → প্রোটেক্টেড রিকুয়েস্ট পাঠাতে
 
-; UseAxiosSecure: নিরাপদভাবে API কল করার জন্য axios instance
+; UseCart, UseAuth → ইউজারের কার্ট এবং ইউজার ইনফো নিতে
 
-; UseCart: ইউজারের কার্ট ডেটা আনতে
+; SweetAlert2 → পেমেন্ট সফল হলে নোটিফিকেশন দেখাতে
 
-; UseAuth: ইউজারের তথ্য (যেমন ইমেইল, নাম) পেতে
+; react-router-dom → পেমেন্ট শেষে অন্য পেজে পাঠাতে (navigate)
 
-; ⚙️ কম্পোনেন্ট শুরু ও স্টেট ডিফাইন
-; js
-; Copy
-; Edit
-; const stripe = useStripe();
-; const elements = useElements();
+; 📦 স্টেটগুলো:
+
 ; const [errorMessage, setErrorMessage] = useState('');
-; const [clientSecret,setClientSecret] = useState('');
-; const [transactionId,setTransactionId]= useState('')
-; const {user} = UseAuth()
-; const axiosSecure = UseAxiosSecure()
-; const [cart ]= UseCart()
-; const totalPrice = cart.reduce((total,item )=>total+item.price,0);
-; stripe, elements: Stripe-এর পেমেন্ট রিসোর্স অ্যাক্সেস করতে।
+; const [clientSecret, setClientSecret] = useState('');
+; const [transactionId, setTransactionId] = useState('');
+; errorMessage: কোনো এরর হলে তা দেখানোর জন্য।
 
-; errorMessage: কোনো সমস্যা হলে তা দেখানোর জন্য।
+; clientSecret: Stripe থেকে পাওয়া গোপন key যেটা দিয়ে পেমেন্ট কনফার্ম করা হয়।
 
-; clientSecret: Stripe থেকে পাওয়া ক্লায়েন্ট সিক্রেট, যা পেমেন্ট authorize করতে দরকার হয়।
+; transactionId: পেমেন্ট সফল হলে Stripe থেকে পাওয়া ট্রানজেকশন আইডি।
 
-; transactionId: সফল পেমেন্টের পরে সেট করা হয়।
+; 📊 কার্ট এবং ইউজার ইনফো:
+;
+; const { user } = UseAuth();
+; const [cart, refetch] = UseCart();
+; user: লগ ইন করা ইউজারের ইনফো।
 
-; user: লগ-ইন করা ইউজারের তথ্য।
+; cart: ইউজারের কার্ট আইটেম লিস্ট।
 
-; cart: ইউজারের কার্ট, যেখানে সব আইটেম থাকে।
+; totalPrice: সব পণ্যের মোট দাম।
 
-; totalPrice: কার্টে থাকা সব আইটেমের মোট দাম হিসাব করা হয়েছে।
+; 🔑 Client Secret তৈরি (Stripe Intent):
 
-; 📡 পেমেন্ট Intent তৈরি (useEffect)
-; js
-; Copy
-; Edit
-; useEffect(() =>{
-;     axiosSecure.post('/create-payment-intent',{price: totalPrice})
-;     .then (res=>{
-;         console.log(res.data.clientSecret)
-;         setClientSecret(res.data.clientSecret)
-;     })
-; },[axiosSecure,totalPrice])
-; কম্পোনেন্ট মাউন্ট হলে একবার POST রিকোয়েস্ট পাঠায় /create-payment-intent এ।
+; useEffect(() => {
+;     axiosSecure.post('/create-payment-intent', { price: totalPrice })
+;         .then(res => {
+;             setClientSecret(res.data.clientSecret)
+;         })
+; }, [axiosSecure, totalPrice]);
+; Stripe-এর সার্ভারে একটি পেমেন্ট ইন্টেন্ট তৈরি করা হয়, যা থেকে clientSecret পাওয়া যায়।
 
-; সেখানে থেকে clientSecret পাওয়া যায় যা Stripe এর পেমেন্ট confirm করার জন্য লাগে।
+; 💳 Handle Submit:
 
-; 🧾 পেমেন্ট সাবমিট হ্যান্ডলার
-; js
-; Copy
-; Edit
 ; const handleSubmit = async (event) => {
 ;     event.preventDefault();
-;     if (!stripe || !elements) return;
+; ফর্ম সাবমিট করলে প্রথমে Stripe এবং Elements চেক করা হয়।
 
-;     const card = elements.getElement(CardElement);
-;     if (card == null) return;
-; ফর্ম সাবমিট করলে এটা ট্রিগার হয়।
+; 
+; const card = elements.getElement(CardElement);
+; CardElement থেকে ইউজারের কার্ড ইনফো নেওয়া হয়।
 
-; stripe এবং elements না থাকলে কিছু করবে না।
+;
+; const { error, paymentMethod } = await stripe.createPaymentMethod({ ... });
+; Stripe-এর মাধ্যমে পেমেন্ট মেথড তৈরি করা হয়।
 
-; card এলিমেন্টকে access করা হয় — এটাতেই ইউজার কার্ড ইনপুট দেয়।
-
-; 💳 পেমেন্ট মেথড তৈরি ও এরর হ্যান্ডলিং
-; js
-; Copy
-; Edit
-; const {error, paymentMethod} = await stripe.createPaymentMethod({
-;     type: 'card',
-;     card,
-; });
-; Stripe এর createPaymentMethod দিয়ে পেমেন্ট মেথড তৈরি করা হয়।
-
-; কোনো ভুল হলে errorMessage সেট করে।
-
-; ✅ পেমেন্ট কনফার্ম করা হচ্ছে
-; js
-; Copy
-; Edit
-; const { paymentIntent, error:confirmError } = await stripe.confirmCardPayment(
-;     clientSecret,
-;     {
-;       payment_method: {
-;         card: card,
-;         billing_details: {
-;             email: user?.email || 'anonymous',
-;             name: user?.displayName || 'anonymous', 
-;         },
-;       },
-;     }
+;
+; const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
+;   clientSecret,
+;   { payment_method: { ... } }
 ; );
-; clientSecret দিয়ে Stripe কে জানানো হয় যে এই পেমেন্টটি কনফার্ম করতে হবে।
+; Stripe-এর clientSecret ব্যবহার করে পেমেন্ট কনফার্ম করা হয়।
 
-; ইউজারের নাম ও ইমেইল পাঠানো হয়।
+; ✅ পেমেন্ট সফল হলে:
+;
+; if (paymentIntent.status === "succeeded") {
+;     setTransactionId(paymentIntent.id);
+;     const payment = {
+;         email: user.email,
+;         price: totalPrice,
+;         transactionId: paymentIntent.id,
+;         date: new Date(),
+;         cartIds: cart.map(item => item._id),
+;         menuItemIds: cart.map(item => item.menuId),
+;         status: "pending",
+;     };
+; সফল পেমেন্টের তথ্য ডাটাবেজে পাঠানো হয়।
 
-; যদি সফল হয় তাহলে transactionId পাওয়া যায়।
+; তারপর Swal দিয়ে ইউজারকে ধন্যবাদ জানানো হয়।
 
-; ✅ UI Part (ফর্ম ও মেসেজ)
-; js
-; Copy
-; Edit
-; <form onSubmit={handleSubmit} className="...">
-;     <CardElement ... />
+; এরপর ইউজারকে /dashboard/paymentHistory পেজে পাঠানো হয়।
+
+; 💁‍♂️ রিটার্ন অংশ (UI):
+
+; <form onSubmit={handleSubmit}>
+;     <CardElement />
 ;     <button disabled={!stripe || !clientSecret}>Pay</button>
-;     <p>{errorMessage}</p>
+;     {errorMessage && <p>{errorMessage}</p>}
 ;     {transactionId && <p>your transaction id: {transactionId}</p>}
 ; </form>
-; CardElement: যেখানে ইউজার কার্ড নাম্বার ইনপুট দেয়।
+; Stripe-এর CardElement ইউজারের কার্ড ইনফো ইনপুট ফিল্ড।
 
-; Pay বাটন: Stripe এবং clientSecret লোড না হলে এটা disable থাকবে।
+; Pay বাটন শুধু তখনই চালু হয় যখন Stripe আর clientSecret রেডি থাকে।
 
-; এরর বা success message দেখায় নিচে।
+; কোনো এরর হলে বা পেমেন্ট সফল হলে তা ইউজারকে দেখানো হয়।
 
-; 🔚 শেষ কথা:
-; এই কম্পোনেন্ট Stripe দিয়ে পেমেন্ট প্রসেস করে:
+; ✅ এই কোড কাজ করবে যখন:
+; ইউজার লগ ইন থাকবে
 
-; কার্টের দাম ধরে backend এ clientSecret তৈরি করে।
+; কার্টে প্রোডাক্ট থাকবে
 
-; ইউজার কার্ড ইনপুট দেয়।
-
-; Stripe API ব্যবহার করে paymentMethod তৈরি করে।
-
-; তারপর payment confirm করে।
-
-; সফল হলে Transaction ID দেখায়।
-
-
-
-
-
-
-
-
-
-
+; সার্ভারে /create-payment-intent ও /payments রাউট সেটআপ করা থাকবে
