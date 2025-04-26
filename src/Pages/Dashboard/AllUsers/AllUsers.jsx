@@ -71,11 +71,11 @@ const AllUsers = () => {
     return (
         <div >
             <div className="flex justify-evenly mb-8">
-                <h3 className="text-3xl">
-                    AllUsers
+                <h3 className="text-3xl font-bold">
+                    All-Users
                 </h3>
-                <h3 className="text-3xl">
-                    total user:{users.length}
+                <h3 className="text-3xl font-bold">
+                    Total user:{users.length}
                 </h3>
             </div>
             <div className="overflow-x-auto">

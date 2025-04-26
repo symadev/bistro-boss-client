@@ -86,7 +86,7 @@ const AdminHome = () => {
           <div className="p-6 rounded-xl text-white bg-gradient-to-r from-purple-500 to-pink-500 shadow-md">
             <div className="text-3xl mb-2"><FaDollarSign /></div>
             <div className="text-lg">Revenue</div>
-            <div className="text-2xl font-bold">{stats.revenue}</div>
+            <div className="text-2xl font-bold">{stats.revenue?.toFixed(2)}</div>
           </div>
       
           <div className="p-6 rounded-xl text-white bg-gradient-to-r from-yellow-400 to-yellow-200 shadow-md">

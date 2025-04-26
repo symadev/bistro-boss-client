@@ -21,7 +21,7 @@ const PaymentHistory = () => {
              <div className="text-center mb-6">
                             <Titles heading="---Check Out The Payment History!---" subHeading="PAYMENT HISTORY" />
                         </div>
-            <h3 className="text-5xl">Total Payment Item:{payments.length}</h3>
+            <h3 className="text-3xl font-bold">Total Payment Item:{payments.length}</h3>
 
 <div className="overflow-x-auto">
   <table className="table table-zebra w-full">
@@ -38,7 +38,7 @@ const PaymentHistory = () => {
     {payments.map((payment, index) => (
   <tr key={payment._id}>
     <th>{index + 1}</th>
-    <td>${payment.price}</td>
+    <td>${payment.price.toFixed(2)}</td> {/* <-- fixed here */}
     <td>{payment.transactionId}</td>
     <td>{payment.status}</td>
   </tr>

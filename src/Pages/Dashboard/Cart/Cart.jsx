@@ -61,11 +61,11 @@ const totalPrice = cart.reduce((total, item) => total + item.price, 0).toFixed(2
     return (
         <div>
            <div className="flex justify-evenly mb-8">
-            <h3 className="text-6xl">
-cart:{cart.length}
+            <h3 className="text-4xl font-bold">
+Cart:{cart.length}
             </h3>
-            <h3 className="text-6xl">
-total Price:{totalPrice}
+            <h3 className="text-4xl font-bold">
+Total Price:{totalPrice}
             </h3>
             {
             cart.length? <Link to = '/dashboard/payment'> <button className="btn-primary btn">pay</button></Link> : <button  disabled className="btn-primary btn">pay</button>
